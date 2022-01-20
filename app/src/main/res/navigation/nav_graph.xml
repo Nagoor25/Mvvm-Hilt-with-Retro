@@ -8,7 +8,15 @@
     <fragment
         android:id="@+id/movieDetailFragment"
         android:name="com.example.mvvmhiltdemo.MovieDetailFragment"
-        android:label="MovieDetailFragment" />
+        android:label="MovieDetailFragment" >
+
+        <argument
+            android:name="movie"
+            app:argType="com.example.mvvmhiltdemo.model.Movies" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_topMoviesFragmentDB"
+            app:destination="@id/topMoviesFragmentDB" />
+    </fragment>
     <fragment
         android:id="@+id/topMoviesFragment"
         android:name="com.example.mvvmhiltdemo.TopMoviesFragment"
@@ -17,4 +25,8 @@
             android:id="@+id/action_topMoviesFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/topMoviesFragmentDB"
+        android:name="com.example.mvvmhiltdemo.TopMoviesFragmentDB"
+        android:label="TopMoviesFragmentDB" />
 </navigation>

@@ -1,9 +1,15 @@
 package com.example.mvvmhiltdemo.di
 
+import android.content.Context
+import androidx.room.Room
+import com.example.mvvmhiltdemo.Constants.DB_Name
 import com.example.mvvmhiltdemo.api.MovieApiInterface
+import com.example.mvvmhiltdemo.db.MovieDao
+import com.example.mvvmhiltdemo.db.MovieDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -36,6 +42,14 @@ object AppModule {
                      .addInterceptor(interceptor)
                      .build()
 
+    @Singleton
+    @Provides
+    fun provideDao(database: MovieDatabase):MovieDao
+       = database.getMovieDao()
 
-
+    @Singleton
+    @Provides
+    fun ProvideMovieDatabase(@ApplicationContext context:Context)=
+        Room.databaseBuilder(context,MovieDatabase::class.java,DB_Name)
+            .build()
 }
