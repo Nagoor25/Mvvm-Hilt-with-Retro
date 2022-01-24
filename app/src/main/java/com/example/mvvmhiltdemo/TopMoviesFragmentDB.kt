@@ -65,7 +65,6 @@ override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     }
 
     private fun setRecycleView() {
-        madapter=MovieAdapter()
         binding.recyclerView.apply {
             layoutManager=LinearLayoutManager(context)
             setHasFixedSize(true)

@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvvmhiltdemo.databinding.FragmentTopMoviesBinding
 import com.example.mvvmhiltdemo.viewmodel.MovieViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -32,13 +33,23 @@ class TopMoviesFragment  : Fragment(R.layout.fragment_top_movies) {
           findNavController().navigate(R.id.action_topMoviesFragment_to_movieDetailFragment,bundle)
       }
       viewModel.respTopRatedMovie.observe(viewLifecycleOwner, Observer {res->
-          res?.let {
-              madapter.differ.submitList(it)
+          when(res) {
+              is Resource.Success ->{
+                  hideProgressBar()
+                  res?.let { serRes->
+                      madapter.differ.submitList(serRes.data?.results)
+                  }
+              }
+              is Resource.Loading->
+                  showProgressBar()
+              is Resource.Error ->
+                  Snackbar.make(binding.root,"${res.message}",Snackbar.LENGTH_SHORT).show()
 
           }
 
       })
     }
+
 
     private fun setRecycleView() {
         madapter=MovieAdapter()
@@ -48,6 +59,12 @@ class TopMoviesFragment  : Fragment(R.layout.fragment_top_movies) {
            adapter=madapter
 
         }
+    }
+    private fun hideProgressBar() {
+        binding.progressBar.visibility=View.INVISIBLE
+    }
+    private fun showProgressBar() {
+        binding.progressBar.visibility=View.VISIBLE
     }
 
 
