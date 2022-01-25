@@ -42,6 +42,7 @@ class MovieDetailFragment :Fragment(R.layout.fragment_movie_detail) {
             }
             addBtn.setOnClickListener {
                 viewModel.addMovie(movie)
+                Snackbar.make(it,"${movie.title} is Added",Snackbar.LENGTH_SHORT).show()
 
 /*
    lifecycleScope.launch (Dispatchers.IO){
